@@ -27,7 +27,9 @@ An example `compose.yml` file is provided to demonstrate how to run a Killing Fl
 ## Usage
 
 1.  **Configure `compose.yml`:**
-    Modify the `compose.yml` file for your desired game server. Pay attention to:
+    Create `compose.yml` file for your desired game server, copy the example provided, and modify it as needed. Right now, I only have a Killing Floor 2 example, but you can use this for any game server that uses SteamCMD. Check the examples folder for the compose file.
+    
+    Pay attention to:
     *   `container_name`: Choose a suitable name.
     *   `ports`: Map the necessary ports for your specific game server (Game Port, Query Port, Web Admin Port, etc.). The example shows ports for KF2.
     *   `command`: This is crucial. It provides arguments to the `entrypoint.sh` script:
@@ -41,7 +43,15 @@ An example `compose.yml` file is provided to demonstrate how to run a Killing Fl
     ```bash
     docker compose up -d
     ```
-    The first time you run this, `steamcmd` will download and validate the server files, which might take some time. Subsequent runs will check for updates but skip validation if the server binary exists, potentially starting faster.
+    The first time you run this, `steamcmd` will download and validate the server files, which might take some time. Subsequent runs will check for updates but skip validation if the server binary exists, potentially starting faster. Installation is always forced to the `/data` directory.
+
+    After the initial install, you may want to modify configs, install mods or maps, etc. You can do this in the `data` directory on the host machine, which is mapped to the container's `/data` directory. If your server stores its configurations outside of its installation folder, you can (and should) add another `volumes` mapping in `compose.yml` to point to the correct location. e.g.
+    ```yaml
+    volumes:
+      - ./config:/etc/server-config
+    ```
+
+    Adding the mapping will make `/etc/server-config` available in the local `config` folder. You can then modify the server config files in the `config` folder on your host machine, and they will be available in the container.
 
 4.  **Stop the Server:**
     ```bash
@@ -65,5 +75,4 @@ An example `compose.yml` file is provided to demonstrate how to run a Killing Fl
 
 *   **Different Game:** Modify the `command` arguments (App ID, binary path, server args) and `ports` in `compose.yml`.
 *   **Data Storage:** Change the host-side path in the `volumes` mapping in `compose.yml`.
-*   **Update Behavior:** The current `entrypoint.sh` *always* checks for updates via `app_update`. If you need to completely skip the update check (e.g., for faster restarts in specific scenarios), you would need to modify the `entrypoint.sh` script or provide a different `entrypoint` or `command` in your `compose.yml` that directly executes the server binary without invoking the update logic. *Note: The comment in the example `compose.yml` regarding using `entrypoint:` to skip updates might be misleading, as the provided `entrypoint.sh` script itself handles the update process.*
-
+*   **Update Behavior:** The current `entrypoint.sh` *always* checks for updates via `app_update`. If you need to completely skip the update check (e.g., for faster using outdated versions), you need to run the Server directly by using the entrypoint, instead of using the command. There is an example in the compose.yml for Killing Floor 2.
