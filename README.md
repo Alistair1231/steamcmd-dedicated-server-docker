@@ -53,6 +53,8 @@ An example `compose.yml` file is provided to demonstrate how to run a Killing Fl
 
     Adding the mapping will make `/etc/server-config` available in the local `config` folder. You can then modify the server config files in the `config` folder on your host machine, and they will be available in the container.
 
+    If your server does not have a WebUI, you may fwant to familiarize yourself with how you can attach/detach to a running container. [Docker attach](https://docs.docker.com/reference/cli/docker/container/attach/). Tl;dr: `docker compose attach server` to attach, `Ctrl + P`, then `Ctrl + Q` to detach. To mess around in the container with a bash shell you can also use `docker compose exec -it server bash`. But be aware, changes made in paths not mapped to the host will be lost when the container is stopped.
+
 4.  **Stop the Server:**
     ```bash
     docker compose down
