@@ -26,10 +26,10 @@ An example `compose.yml` file is provided to demonstrate how to run a Killing Fl
 
 ## Usage
 
-1.  **Configure `compose.yml`:**
-    Create `compose.yml` file for your desired game server, copy the example provided, and modify it as needed. Right now, I only have a Killing Floor 2 example, but you can use this for any game server that uses SteamCMD. Check the examples folder for the compose file.
+1.  Create a `compose.yml` file for your desired game server, copy the example provided, and modify it as needed. Right now, I only have a Killing Floor 2 example, but you can use this for any game server that uses SteamCMD. Check the examples folder for the compose file.
     
     Pay attention to:
+    *   `build`: If you want to clone this repo and modify the Dockerfile, the `build` context should point to the directory containing the `Dockerfile`. If the default works for you, then just point it at this repo like the example. 
     *   `container_name`: Choose a suitable name.
     *   `ports`: Map the necessary ports for your specific game server (Game Port, Query Port, Web Admin Port, etc.). The example shows ports for KF2.
     *   `command`: This is crucial. It provides arguments to the `entrypoint.sh` script:
