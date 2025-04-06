@@ -1,0 +1,22 @@
+services:
+  server:
+    container_name: kf2
+    tty: true
+    stdin_open: true
+    build: https://github.com/Alistair1231/steamcmd-dedicated-server-docker.git
+    volumes:
+      - ./data:/data
+    ports:
+      - 10300:8080
+      - 20560:20560/udp
+      - 7777:7777/udp
+    command: [
+        # Steam App ID for update/install on start using steamcmd
+        "232130",
+        # Path to the server executable
+        "/data/Binaries/Win64/KFGameSteamServer.bin.x86_64",
+        # Arguments for the server
+        "kf-bioticslab?webadminport=8080&queryport=20560&port=7777&bUsesPresence=False&AdminName=admin&AdminPassword=adminadmin",
+      ]
+    # to not update the server on every start remove the command and instead use the entrypoint
+    # entrypoint: ["/path/to/server/binary", "args"]
