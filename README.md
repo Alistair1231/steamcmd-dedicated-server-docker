@@ -20,7 +20,7 @@ An example `compose.yml` file is provided to demonstrate how to run a Killing Fl
 
 ## Files
 
-*   `Dockerfile`: Defines the Docker image, installs `curl`, and sets up the `entrypoint.sh` script.
+*   `Dockerfile`: Defines the Docker image, and sets up the `entrypoint.sh` script.
 *   `entrypoint.sh`: The script executed when the container starts. It handles the `steamcmd` update/install process and then executes the game server binary with provided arguments.
 *   `compose.yml`: An example Docker Compose file demonstrating how to use the image to run a Killing Floor 2 server.
 
