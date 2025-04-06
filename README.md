@@ -15,8 +15,8 @@ An example `compose.yml` file is provided to demonstrate how to run a Killing Fl
 
 ## Prerequisites
 
-*   [Docker](https://docs.docker.com/get-docker/)
-*   [Docker Compose](https://docs.docker.com/compose/install/)
+*   [Docker](https://docs.docker.com/get-docker/), Podman, containerd with nerdctl, etc should work as well, but were not tested.
+*   [Docker Compose](https://docs.docker.com/compose/install/), or the equivalent for your container runtime. 
 
 ## Files
 
