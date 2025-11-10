@@ -1,0 +1,79 @@
+services:
+  # https://necessewiki.com/Multiplayer
+  necesse:
+    container_name: necesse
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    build:
+      context: https://github.com/Alistair1231/steamcmd-dedicated-server-docker
+      dockerfile: Dockerfile
+    volumes:
+      - ./steamcache:/root/.local/share/Steam
+      - ./necesse-data:/data
+      - ./necesse-config:/home/ubuntu/.config/Necesse/
+    ports:
+      - "14159:14159/udp"
+    command: |
+      --app-id
+      1169370
+      --binary
+      ./jre/bin/java 
+      -- 
+      -jar Server.jar -nogui -world "world"
+
+  # https://satisfactory.wiki.gg/wiki/Dedicated_servers
+  satisfactory:
+    container_name: satisfactory
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    build:
+      context: https://github.com/Alistair1231/steamcmd-dedicated-server-docker
+      dockerfile: Dockerfile
+    environment:
+      - DISABLESEASONALEVENTS=false
+      - MAXOBJECTS=2162688
+      - MAXPLAYERS=4
+      - MAXTICKRATE=30
+    volumes:
+      - ./steamcache:/root/.local/share/Steam
+      - ./satisfactory-data:/data
+      - ./satisfactory-config:/home/ubuntu/.config/Epic
+    ports:
+      - "6777:7777/udp"
+      - "6777:7777/tcp"
+      - "8888:8888/tcp"
+    command: |
+      --app-id
+      1690800
+      --binary
+      /data/FactoryServer.sh
+  
+  kf2:
+    container_name: kf2
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    build:
+      context: https://github.com/Alistair1231/steamcmd-dedicated-server-docker
+      dockerfile: Dockerfile.wine
+    environment:
+      - DISABLESEASONALEVENTS=false
+      - MAXOBJECTS=2162688
+      - MAXPLAYERS=4
+      - MAXTICKRATE=30
+    volumes:
+      - ./steamcache:/root/.local/share/Steam
+      - ./kf2-data:/data
+    ports:
+      - 10300:8080
+      - 20560:20560/udp
+      - 7777:7777/udp
+    command: |
+        --app-id 
+        232130
+        --binary
+        /data/Binaries/Win64/KFGameSteamServer.bin.x86_64
+        --
+        kf-bioticslab?webadminport=8080&queryport=20560&port=7777&bUsesPresence=False&AdminName=admin&AdminPassword=adminadmin

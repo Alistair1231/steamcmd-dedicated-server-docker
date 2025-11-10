@@ -1,0 +1,27 @@
+FROM steamcmd/steamcmd:latest
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+  apt-get install -y \
+  wine-stable gosu curl \
+  xvfb && \  
+  rm -rf /var/lib/apt/lists/*
+
+ENV WINEPREFIX=/data/.wine
+RUN mkdir -p /data/.wine  && \
+  mkdir -p /home/ubuntu/.cache/fontconfig && \
+  chown -R ubuntu:ubuntu /data /data/.wine && \
+  echo "ubuntu ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh && \
+  chown ubuntu:ubuntu /entrypoint.sh
+
+USER ubuntu
+WORKDIR /data
+
+STOPSIGNAL SIGINT
+
+ENTRYPOINT ["/entrypoint.sh"]
